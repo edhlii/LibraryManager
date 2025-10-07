@@ -1,4 +1,1 @@
 # Library Manager C++
-
-Tech Stack:
-- Database: SQLite
