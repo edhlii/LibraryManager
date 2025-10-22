@@ -6,23 +6,31 @@
 
 class Book {
 private:
-  std::string name;
+  std::string title;
   std::string author;
-  std::string releaseDate;
-  std::string type;
-  int totalNumber;
-  int availableNumber;
-  int releaseDay, releaseMonth, releaseYear;
+  int id = 0;
+  int totalNumber = 0;
+  int availableNumber = 0;
+  int releaseYear;
 
 public:
   Book();
+  Book(const std::string &title, const std::string &author, int releaseYear,
+       int totalNumber, int availableNumber);
   ~Book();
-  void updateAll();
-  void updateAuthor();
-  void updateName();
-  void updateReleaseDate();
-  void updateTotalNumber();
-  void updateAvailableNumber();
 
+  void setId(int newId);
+  void setTitle(const std::string &newTitle);
+  void setAuthor(const std::string &newAuthor);
+  void setAvailable(int newAvailable);
+  void setTotal(int newTotal);
+  void setReleaseYear(int newReleaseYear);
+
+  int getId();
+  std::string getTitle();
+  std::string getAuthor();
+  int getReleaseYear();
+  int getTotalNumber();
+  int getAvailableNumber();
   void getBookInfo();
 };
