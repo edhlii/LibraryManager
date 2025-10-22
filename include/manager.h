@@ -15,7 +15,7 @@ public:
   ~Manager();
   void printList();
   bool editBook(int id, Book *newBook);
-  bool lendBook(int id);
+  bool rentBook(int id);
   bool addBook(Book *book);
   bool removeBookById(int id);
   bool isValidId(int id);
