@@ -8,6 +8,7 @@ class Book {
 private:
   std::string title;
   std::string author;
+  // std::string isbn;
   int id = 0;
   int totalNumber = 0;
   int availableNumber = 0;
@@ -32,5 +33,6 @@ public:
   int getReleaseYear();
   int getTotalNumber();
   int getAvailableNumber();
-  void getBookInfo();
+  void getBookInfo(int index = 0);
+  void editBook();
 };

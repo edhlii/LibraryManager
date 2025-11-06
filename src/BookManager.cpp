@@ -1,11 +1,10 @@
-#include "manager.h"
-#include <fstream>
+#include "BookManager.h"
 
-Manager::Manager() {}
+BookManager::BookManager() {}
 
-Manager::~Manager() {}
+BookManager::~BookManager() {}
 
-bool Manager::loadBookList(const std::string &bookPath) {
+bool BookManager::loadBookList(const std::string &bookPath) {
   std::ifstream file(bookPath);
   if (!file.is_open()) {
     std::cout << "[!] Failed to open book list data!" << std::endl;
@@ -24,17 +23,17 @@ bool Manager::loadBookList(const std::string &bookPath) {
   return 1;
 }
 
-bool Manager::addBook(Book *book) {
+bool BookManager::addBook(Book *book) {
   bookList.push_back(book);
   return 1;
 }
 
-bool Manager::removeBookById(int id) {
+bool BookManager::removeBookById(int id) {
   bookList.erase(bookList.begin() + id, bookList.begin() + id + 1);
   return 1;
 }
 
-bool Manager::saveBookList(const std::string &bookPath) {
+bool BookManager::saveBookList(const std::string &bookPath) {
   std::ofstream file(bookPath);
   for (int i = 0; i < bookList.size(); ++i) {
     file << bookList[i]->getTitle() << std::endl;
@@ -60,17 +59,18 @@ bool cmp(std::string a, std::string b) {
   return 1;
 }
 
-bool Manager::findBookByName(const std::string &bookName) {
+bool BookManager::findBookByName(const std::string &bookName) {
+  printListBanner();
   for (int i = 0; i < bookList.size(); ++i) {
     if (cmp(bookList[i]->getTitle(), bookName)) {
-      std::cout << i << ": " << std::endl;
-      bookList[i]->getBookInfo();
+      // std::cout << i << ": " << std::endl;
+      bookList[i]->getBookInfo(i);
     }
   }
   return 1;
 }
 
-bool Manager::isValidId(int id) {
+bool BookManager::isValidId(int id) {
   if (id < 0 || id >= bookList.size()) {
     std::cout << "[!] Invalid id!" << std::endl;
     return 0;
@@ -78,44 +78,65 @@ bool Manager::isValidId(int id) {
   return 1;
 }
 
-bool Manager::setBookTitle(int id, const std::string &title) {
+bool BookManager::setBookTitle(int id, const std::string &title) {
   if (!isValidId(id))
     return 0;
   bookList[id]->setTitle(title);
   return 1;
 }
-bool Manager::setBookAuthor(int id, const std::string &author) {
+bool BookManager::setBookAuthor(int id, const std::string &author) {
   if (!isValidId(id))
     return 0;
   bookList[id]->setAuthor(author);
   return 1;
 }
-bool Manager::setBookReleaseYear(int id, const int &year) {
+bool BookManager::setBookReleaseYear(int id, const int &year) {
   if (!isValidId(id))
     return 0;
   bookList[id]->setReleaseYear(year);
   return 1;
 }
-bool Manager::setBookTotal(int id, const int &total) {
+bool BookManager::setBookTotal(int id, const int &total) {
   if (!isValidId(id))
     return 0;
   bookList[id]->setReleaseYear(total);
   return 1;
 }
-bool Manager::setBookAvailable(int id, const int &available) {
+bool BookManager::setBookAvailable(int id, const int &available) {
   if (!isValidId(id))
     return 0;
   bookList[id]->setReleaseYear(available);
   return 1;
 }
 
-void Manager::printList() {
+void BookManager::printListBanner() {
+  const int indexWidth = 10;
+  const int titleWidth = 30;
+  const int authorWidth = 20;
+  const int numberWidth = 10;
+  std::cout << "\033[1;34m";
+  std::cout << std::string(
+                   indexWidth + titleWidth + authorWidth + numberWidth * 2, '=')
+            << std::endl;
+  std::cout << std::left << std::setw(indexWidth) << "INDEX"
+            << std::setw(titleWidth) << "BOOK TITLE" << std::setw(authorWidth)
+            << "AUTHOR" << std::setw(numberWidth) << "TOTAL"
+            << std::setw(numberWidth) << "AVAILABLE" << std::endl;
+  std::cout << std::string(
+                   indexWidth + titleWidth + authorWidth + numberWidth * 2, '=')
+            << std::endl;
+  std::cout << "\033[0m";
+}
+
+void BookManager::printList() {
+  printListBanner();
+  int index = 0;
   for (auto book : bookList) {
-    book->getBookInfo();
+    book->getBookInfo(index++);
   }
 }
 
-bool Manager::lendBook(int id) {
+bool BookManager::borrowBook(int id) {
   if (!isValidId(id)) {
     return 0;
   }
@@ -127,9 +148,23 @@ bool Manager::lendBook(int id) {
   return 1;
 }
 
-bool Manager::editBook(int id, Book *book) {
+bool BookManager::returnBook(int id) {
+  if (!isValidId(id)) {
+    return 0;
+  }
+  int available = bookList[id]->getAvailableNumber();
+  int total = bookList[id]->getTotalNumber();
+  bookList[id]->setAvailable(available + 1);
+  if (available == total) {
+    bookList[id]->setTotal(total + 1);
+  }
+  return 1;
+}
+
+bool BookManager::editBook(int id) {
   if (!isValidId(id))
     return 0;
-  bookList[id] = book;
+  bookList[id]->getBookInfo(id);
+  bookList[id]->editBook();
   return 1;
 }

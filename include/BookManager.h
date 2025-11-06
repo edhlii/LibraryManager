@@ -2,20 +2,24 @@
 
 #include "book.h"
 #include "common.h"
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
 
-class Manager {
+class BookManager {
 private:
   std::vector<Book *> bookList;
 
 public:
-  Manager();
-  ~Manager();
+  BookManager();
+  ~BookManager();
+  void printListBanner();
   void printList();
-  bool editBook(int id, Book *newBook);
-  bool lendBook(int id);
+  bool editBook(int id);
+  bool borrowBook(int id);
+  bool returnBook(int id);
   bool addBook(Book *book);
   bool removeBookById(int id);
   bool isValidId(int id);

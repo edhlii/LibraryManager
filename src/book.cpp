@@ -1,4 +1,5 @@
-#include "book.h"
+#include "Book.h"
+#include <iomanip>
 
 Book::Book() {}
 
@@ -31,10 +32,49 @@ int Book::getReleaseYear() { return this->releaseYear; }
 int Book::getTotalNumber() { return this->totalNumber; }
 int Book::getAvailableNumber() { return this->availableNumber; }
 
-void Book::getBookInfo() {
-  std::cout << "Book name: " << title << std::endl;
-  std::cout << "Book author: " << author << std::endl;
-  std::cout << "Total number: " << totalNumber << std::endl;
-  std::cout << "Available number: " << availableNumber << std::endl;
-  std::cout << "---" << std::endl;
+void Book::getBookInfo(int index) {
+  const int indexWidth = 10;
+  const int titleWidth = 30;
+  const int authorWidth = 20;
+  const int numberWidth = 10;
+  std::cout << std::left;
+  std::cout << "\033[37m" << std::setw(indexWidth) << index
+            << std::setw(titleWidth)
+            << (title.length() > 28 ? title.substr(0, 27) + "..." : title)
+            << std::setw(authorWidth)
+            << (author.length() > 23 ? author.substr(0, 22) + "..." : author)
+            << "\033[36m" << std::setw(numberWidth) << totalNumber
+            << std::setw(numberWidth) << availableNumber << "\033[0m"
+            << std::endl
+            << std::endl;
+}
+
+void Book::editBook() {
+  int id;
+  std::string line;
+  std::cout << "[!] Enter book ID: ";
+  std::cin >> id;
+  std::cout << "[!] Enter book infomation: " << std::endl;
+  std::cout << "Book title: ";
+  std::cin.ignore();
+  getline(std::cin, line);
+  if (!line.empty())
+    title = line;
+  std::cout << "Book author: ";
+  getline(std::cin, line);
+  if (!line.empty())
+    author = line;
+  int year, total, available;
+  std::cout << "Book released year: ";
+  getline(std::cin, line);
+  if (!line.empty())
+    releaseYear = stoi(line);
+  std::cout << "Book total number: ";
+  getline(std::cin, line);
+  if (!line.empty())
+    total = stoi(line);
+  std::cout << "Book available number: ";
+  getline(std::cin, line);
+  if (!line.empty())
+    available = stoi(line);
 }
