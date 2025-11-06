@@ -7,7 +7,7 @@ BookManager::~BookManager() {}
 bool BookManager::loadBookList(const std::string &bookPath) {
   std::ifstream file(bookPath);
   if (!file.is_open()) {
-    std::cout << "[!] Failed to open book list data!" << std::endl;
+    std::cout << "[-] Failed to open book list data!" << std::endl;
     return 0;
   }
   bookList.clear();
@@ -17,7 +17,7 @@ bool BookManager::loadBookList(const std::string &bookPath) {
     getline(file, author);
     file >> releaseYear >> total >> available;
     file.ignore();
-    Book *currentBook = new Book(title, author, releaseYear, total, available);
+    Book* currentBook = new Book(title, author, releaseYear, total, available);
     bookList.push_back(currentBook);
   }
   return 1;
@@ -46,15 +46,11 @@ bool BookManager::saveBookList(const std::string &bookPath) {
 }
 
 bool cmp(std::string a, std::string b) {
-  for (char &c : a)
-    c = tolower(c);
-  for (char &c : b)
-    c = tolower(c);
-  if (a.size() > b.size())
-    swap(a, b);
+  for (char& c : a) c = tolower(c);
+  for (char& c : b) c = tolower(c);
+  if (a.size() > b.size()) swap(a, b);
   for (int i = 0; i < a.size(); ++i) {
-    if (a[i] != b[i])
-      return 0;
+    if (a[i] != b[i]) return 0;
   }
   return 1;
 }
