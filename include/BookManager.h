@@ -25,10 +25,10 @@ public:
   bool isValidId(int id);
   bool loadBookList(const std::string &bookPath);
   bool saveBookList(const std::string &bookPath);
-  bool findBookByName(const std::string &bookName);
+  bool searchBook(const std::string &bookName);
   bool setBookTitle(int id, const std::string &title);
   bool setBookAuthor(int id, const std::string &author);
-  bool setBookReleaseYear(int id, const int &year);
+  bool setBookReleaseYear(int id, const std::string &year);
   bool setBookTotal(int id, const int &total);
   bool setBookAvailable(int id, const int &available);
 };

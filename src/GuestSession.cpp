@@ -18,10 +18,11 @@ void GuestSession::setBookManager(BookManager *bookManager) {
 void GuestSession::printBookList() { bookManager->printList(); }
 
 void GuestSession::searchBook() {
+  std::cout << "Enter keyword: ";
   std::string query;
   std::cin.ignore();
   getline(std::cin, query);
-  bookManager->findBookByName(query);
+  bookManager->searchBook(query);
 }
 
 void GuestSession::printMenu() {

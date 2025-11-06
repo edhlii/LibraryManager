@@ -14,7 +14,7 @@ void AdminSession::printMenu() {
   std::cout << "[2] Remove a book from database by ID." << std::endl;
   std::cout << "[3] Edit book information by ID." << std::endl;
   std::cout << "[4] Find a book information by title." << std::endl;
-  std::cout << "[5] Lend a book." << std::endl;
+  std::cout << "[5] Borrow a book." << std::endl;
   std::cout << "[6] Return a book." << std::endl;
   std::cout << "[7] Print book list." << std::endl;
   std::cout << "[8] Save book list to database." << std::endl;
@@ -36,19 +36,28 @@ void AdminSession::addBook() {
   std::cin.ignore();
   getline(std::cin, line);
   book->setTitle(line);
+
   std::cout << "Book author: ";
   getline(std::cin, line);
   book->setAuthor(line);
+
+  std::cout << "Book genre: ";
+  getline(std::cin, line);
+  book->setGenre(line);
+
   int year, total, available;
   std::cout << "Book released year: ";
-  std::cin >> year;
-  book->setReleaseYear(year);
+  getline(std::cin, line);
+  book->setReleaseYear(line);
+
   std::cout << "Book total number: ";
   std::cin >> total;
   book->setTotal(total);
+
   std::cout << "Book available number: ";
   std::cin >> available;
   book->setAvailable(available);
+
   bookManager->addBook(book);
   std::cout << "[+] Added book to book list." << std::endl;
   std::cout << std::endl;
@@ -68,11 +77,26 @@ void AdminSession::editBook() {
   bookManager->editBook(index);
 }
 
+void AdminSession::borrowBook() {
+  int index;
+  std::cout << "Enter book index to borrow: ";
+  std::cin >> index;
+  bookManager->borrowBook(index);
+}
+
+void AdminSession::returnBook() {
+  int index;
+  std::cout << "Enter book index to return: ";
+  std::cin >> index;
+  bookManager->returnBook(index);
+}
+
 void AdminSession::searchBook() {
+  std::cout << "Enter keyword: ";
   std::string query;
   std::cin.ignore();
   getline(std::cin, query);
-  bookManager->findBookByName(query);
+  bookManager->searchBook(query);
 }
 
 void AdminSession::printBookList() { bookManager->printList(); }
@@ -88,6 +112,7 @@ void AdminSession::run() {
     switch (choice) {
     case 1:
       addBook();
+      saveBookList();
       break;
     case 2:
       removeBook();
@@ -99,7 +124,11 @@ void AdminSession::run() {
       searchBook();
       break;
     case 5:
+      borrowBook();
+      break;
     case 6:
+      returnBook();
+      break;
     case 7:
       printBookList();
       break;
@@ -107,6 +136,7 @@ void AdminSession::run() {
       saveBookList();
       break;
     case 9:
+      saveBookList();
       isRunning = false;
       break;
     }

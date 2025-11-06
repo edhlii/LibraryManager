@@ -18,6 +18,8 @@ public:
   void addBook();
   void removeBook();
   void editBook();
+  void borrowBook();
+  void returnBook();
   void searchBook();
   void printBookList();
   void saveBookList();
